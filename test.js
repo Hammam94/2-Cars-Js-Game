@@ -5,7 +5,7 @@ var i = 0;
 var target;
 var obstacle;
 var ctx;
-var drawobs = new Queue();
+var draw = new Queue();
 var drawtar = new Queue();
 var create = true;
 
@@ -39,16 +39,15 @@ var Obstacle = function (){
     this.getobjY = function(){return objY;}
     this.setobjY = function(){
     	objY+= 50;  
-    	if(objY > Context.canvas.height) {
-    		objY = -50; 
-    		delete drawobs.get(); 
-    		alert(drawobs.getsize());
-    		create = true;	
-    		alert(drawobs.get());
+    	if(objY > Context.canvas.height) { 
+    		delete draw.get(); 
+    		//alert("Size = " + draw.getsize());
+    		
+
     	}
-    	/*if(objY > Context.canvas.height * 5 / 6 ) {
+    	if(objY > Context.canvas.height * 5 / 6 ) {
     		create = true;
-    	}*/
+    	}
     }
     this.setobjX = function(data){objX = data;}
 }
@@ -68,16 +67,12 @@ var Target = function (){
     this.setobjY = function(){
     	objY+= 50; 
     	if(objY > Context.canvas.height) {
-    		objY = -50;  
-    		delete drawtar.get(); 
-    		alert(drawtar.getsize());
-    		create = true;	
-    		alert(drawtar.get());
-
+    		delete draw.get(); 
+    		//alert("Size : " +draw.getsize());	
+    		
     	}
-    	/*if(objY > Context.canvas.height * 5/6 ) {
-    		create = true;
-    	}*/
+    	if(objY > Context.canvas.height * 5/6 ) {create = true;}
+    		
     }
     this.setobjX = function(data){objX = data;}
 }
@@ -97,8 +92,10 @@ function loadpic(){
 	    ctx.drawImage(road, 0, 0, Context.canvas.width,Context.canvas.height);
 	};
 	road.src = 'file:///C:/Users/Hammam/Downloads/Subject/projects/road.png';
-	var obstacle = new Obstacle();
+	
 	if(create){
+		create = false;
+		//alert("Add Object");
 		if(type[Math.floor(Math.random()*type.length)] == 1){
 			var obstacle = new Obstacle();
 			if(column[Math.floor(Math.random()*column.length)] == 1){
@@ -110,7 +107,7 @@ function loadpic(){
 			}else {
 				obstacle.setobjX(obsX+375);
 			} 
-			drawobs.add(obstacle);
+			draw.add(obstacle);
 		} else {
 			var target = new Target();
 			if(column[Math.floor(Math.random()*column.length)] == 1){
@@ -122,9 +119,9 @@ function loadpic(){
 			}else {
 				target.setobjX(obsX+375);
 			} 
-			drawtar.add(target);
+			draw.add(target);
 		}
-		create = false;
+		
 	}
 
 }
@@ -134,30 +131,27 @@ function init(){
 	loadpic()
 	ctx.clearRect(0, 0, Context.canvas.width, Context.canvas.height);
 	
-	var waitobs = Array(); var waitTar = Array();
+	var wait = Array();
+	var obsi = 0;
 
-	alert("obs "+drawobs.getsize());
-	for(var j=0;j< drawobs.getsize();j++){
-		waitobs.push(drawobs.get());
-		move(waitobs[j]);
+	while(!draw.isEmpty()){
+		wait.push(draw.get());
+		move(wait[obsi]);
+		obsi++;
 	}
-	alert("tar"+drawtar.getsize());
-	for(var j=0;j< drawtar.getsize();j++){
-		waitTar.push(drawtar.get());
-		move(waitTar[j]);
-	}
-
 	
-	for(var j=0;j<waitobs.length;j++){
-		if(waitobs[j].getobjY() < Context.canvas.height){
-			drawobs.add(waitobs[j]);
+	//alert("Size befor" + draw.getsize());
+
+	for(var j=0;j<wait.length;j++){	
+		if(wait[j].getobjY() < Context.canvas.height){
+
+			draw.add(wait[j]);
+		}
+		else{
+			delete wait[j];
 		}
 	}
-	for(var j=0;j<waitTar.length;j++){
-		if(waitTar[j].getobjY() < Context.canvas.height){
-			drawtar.add(waitTar[j]);
-		}
-	}
+	//alert( "Size in init = " + draw.getsize());
 
 	setTimeout(init,200);
 }
@@ -177,15 +171,34 @@ function Queue(){
 
 	this.get = function (){
 	  if(arr.length - offset < 1) {
-	  	
 	    console.log("embty queue");
 	    return;
 	  }
 	  var item = arr[offset];
-	  offset++;
-	  alert(offset);
+	  arr.shift();
 	  return item;
 	}
 
 	this.getsize = function(){return arr.length - offset;}
+	this.isEmpty = function(){return arr.length < 1;}
 }
+
+
+/*function testQueue(){
+	var test = new Queue();
+	for(var i = 0; i < 10; i++){
+		test.add(i);
+	}
+
+	//alert(test.getsize());
+
+	for(var i = 0; i < test.getsize(); i++){
+		alert(test.get());
+		alert(test.getsize() + " index :" + i);
+	}
+
+	alert('size = ' + test.getsize());
+
+}*/
+
+//testQueue();
