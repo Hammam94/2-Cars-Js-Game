@@ -1,4 +1,5 @@
 var type = Array(1,2);
+var type1 = Array(true,false);
 var column = Array(1,2,3,4);
 var obsX = 35, obsY = -50; obsY1 = -1000;
 var i = 0;
@@ -8,6 +9,7 @@ var ctx;
 var draw = new Queue();
 var drawtar = new Queue();
 var create = true;
+var player1, player2;
 
 function Sleep(ms){
 	var date1 = new Date().getTime();
@@ -29,9 +31,9 @@ var Obstacle = function (){
 	var imageObj = new Image();
 	var objY = -50;
 	var objX;
-	this.create = function(context){	
+	this.create = function(){	
 		imageObj.onload = function() {
-		    context.drawImage(imageObj, objX, objY, 30,30);
+		    ctx.drawImage(imageObj, objX, objY, 30,30);
 		};
 		imageObj.src = 'file:///C:/Users/Hammam/Downloads/Subject/projects/obstacle.png';
 		return imageObj;
@@ -42,10 +44,8 @@ var Obstacle = function (){
     	if(objY > Context.canvas.height) { 
     		delete draw.get(); 
     		//alert("Size = " + draw.getsize());
-    		
-
     	}
-    	if(objY > Context.canvas.height * 5 / 6 ) {
+    	if(objY > Context.canvas.height * 6 / 7 ) {
     		create = true;
     	}
     }
@@ -56,9 +56,9 @@ var Target = function (){
 	var imageObj = new Image();
 	var objY = -50;
 	var objX;
-	this.create = function(context){	
+	this.create = function(){	
 		imageObj.onload = function() {
-		    context.drawImage(imageObj, objX, objY, 30,30);
+		    ctx.drawImage(imageObj, objX, objY, 30,30);
 		};
 		imageObj.src = 'file:///C:/Users/Hammam/Downloads/Subject/projects/target.png';
 		return imageObj;
@@ -68,21 +68,47 @@ var Target = function (){
     	objY+= 50; 
     	if(objY > Context.canvas.height) {
     		delete draw.get(); 
-    		//alert("Size : " +draw.getsize());	
-    		
+    		//alert("Size : " +draw.getsize());		
     	}
-    	if(objY > Context.canvas.height * 5/6 ) {create = true;}
-    		
+    	if(objY > Context.canvas.height * 6 / 7 ) {create = true;}
     }
     this.setobjX = function(data){objX = data;}
 }
 
+var Player = function (){
+	var imageObj = new Image();
+	var State = true;
 
+	this.setState = function(data){ State = data; }
+	this.getState = function(){return State;}
+
+	this.create = function(carType){
+		imageObj.onload = function() {
+			if(carType == 1){
+				if(State){
+				    ctx.drawImage(imageObj, 35, 480, 40,60);
+				} else {
+					ctx.drawImage(imageObj, 35 +125, 480, 40,60);
+				}
+
+			}else{
+				if(State){
+				    ctx.drawImage(imageObj, 35+250, 480, 40,60);
+				} else {
+					ctx.drawImage(imageObj, 35+375, 480, 40,60);
+				}
+			}
+		};
+		imageObj.src = 'file:///C:/Users/Hammam/Downloads/Subject/projects/car.png';
+		return imageObj;
+	}
+
+}
 
 
 function move(obj){
 	obj.setobjY();
-	obj.create(ctx);
+	obj.create();
 }
 
 function loadpic(){
@@ -92,7 +118,25 @@ function loadpic(){
 	    ctx.drawImage(road, 0, 0, Context.canvas.width,Context.canvas.height);
 	};
 	road.src = 'file:///C:/Users/Hammam/Downloads/Subject/projects/road.png';
-	
+	if(i == 0){
+		player1 = new Player();
+		player2 = new Player();
+		i++;
+	}
+	//player1.setState(type1[Math.floor(Math.random()*type1.length)]);
+	window.onkeyup = function(e) {
+	   var key = e.keyCode ? e.keyCode : e.which;
+	   if (key == 39) {
+	   		player1.setState(!player1.getState());
+	   }
+
+	   if(key == 68 || key == 100){
+	   	player2.setState(!player2.getState());
+	   }
+	}
+	//player2.setState(type[Math.floor(Math.random()*type.length)]);
+	player1.create(1);
+	player2.create(2);
 	if(create){
 		create = false;
 		//alert("Add Object");
