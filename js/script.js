@@ -111,14 +111,14 @@ function drawObject (img, level, laneOffset, type) {
 
 function collision (level, lane, player) {
 	if(level.y >= 480 - 30 && level.y <= 480 + 60) {
-		if((level.obj.x == 35 + 125 * (lane) && player.getState()) ||
+		if((level.obj.x == 35 + 125 * lane && player.getState()) ||
 			 (level.obj.x == 35 + 125 * (lane + 1) && !player.getState())) {
 			if(level.obj.type == "obstacle") {
 				// gameOver
 				gameover = true
 			}else if(level.obj.type == "target") {
-				console.log("score");
 				++score;
+				//console.log(score);
 				level.obj.type = "free";
 			}
 		}
@@ -136,20 +136,20 @@ function collision (level, lane, player) {
 	}
 }
 
+function objectCreation(level, side){
+	if(type[Math.floor(Math.random()*type.length)] == 2) {
+		drawObject(targetImg, level, side, "target");
+	} else {
+		drawObject(obstacleImg, level, side, "obstacle");
+	}
+}
+
 function levelCreationHandler (level, side, player) {
 	if(!level.hasObj) {
 			if(type[Math.floor(Math.random()*type.length)] == 1) {
-				if(type[Math.floor(Math.random()*type.length)] == 2) {
-					drawObject(targetImg, level, 0 + 2 * side, "target");
-				} else {
-					drawObject(obstacleImg, level, 0 + 2 * side, "obstacle");
-				}
+				objectCreation(level, 0 + 2 * side);
 			} else {
-				if(type[Math.floor(Math.random()*type.length)] == 2) {
-					drawObject(targetImg, level, 1 + 2 * side, "target");
-				} else {
-					drawObject(obstacleImg, level, 1 + 2 * side, "obstacle");
-				}
+				objectCreation(level, 1 + 2 * side);
 			}
 			level.hasObj = true;
 			level.obj.draw(level.y);
@@ -173,15 +173,19 @@ function render () {
 	}
 }
 
-
 function startGameLoop(){
 	if(!gameover) {
 		ctx.clearRect(roadImg, 0, 0, Context.canvas.width, Context.canvas.height);
 		ctx.drawImage(roadImg, 0, 0, Context.canvas.width, Context.canvas.height);
 		render();	
+	} else {
+		//Enter his name
+		document.getElementById('forGettingTheName').style.display = 'block';
 	}
 	setTimeout(startGameLoop,perodicTime);
 }
 
+
+document.getElementById("forGettingTheName").style.display="none";
 runOnLoad();
 startGameLoop();

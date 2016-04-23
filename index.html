@@ -2,13 +2,20 @@
 <html>
 <head>
 	<title>Game</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
 </head>
 <body>
-	<canvas style="border: 1px solid gray; width: 500px; height: 580px;" width="500px" height="580" id = "canvas">
-	</canvas>
-
-
+	<div style="display: inline-block;">
+		<canvas style="display:inline-block; border: 1px solid gray; width: 500px; height: 580px; float: left;" width="500px" height="580" id = "canvas"></canvas>
+		<div id = "forGettingTheName" style="display: inline-block; float: right; margin-left: 300px; margin-top: 250px;">
+			<form id = "name" class="form-group">
+				<label for="exampleInputName2">Name</label>
+    			<input type="text" class="form-control" id="exampleInputName2"><br>
+    			<button type="submit" class="btn btn-default">Send invitation</button>
+			</form>
+		</div>
+	</div>
 	<script type="text/javascript" src = "js/script.js"></script>
 </body>
 </html>
