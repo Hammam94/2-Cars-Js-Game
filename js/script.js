@@ -1,26 +1,27 @@
 var type = Array(1,2);
 var type1 = Array(true,false);
-var obsX = 35, obsY = -50; obsY1 = -1000;
-var i = 0;
+var obsX , obsY, obsY1;
+var i;
 var target;
 var obstacle;
 var ctx;
-var levelSperatorDistance = 150;
+var levelSperatorDistance;
 var levelNum = 500 / 50;
 var leftArray = new Array(levelNum);
 var rightArray = new Array(levelNum);
-var create = true;
+var create;
 var player1, player2;
-var speed = 10;
-var gamediffer = 50;
-var gamediffercounter = 0;
-var perodicTime = 33.3;
+var speed;
+var gamediffer;
+var gamediffercounter;
+var perodicTime;
 var obstacleImg;
 var targetImg;
 var playerImg;
 var roadImg;
-var score = 0;
-var gameover = false;
+var score;
+var gameover;
+var time;
 
 var Context = {
 	canvas : null,
@@ -37,6 +38,33 @@ var Level = function () {
 	var hasObj = false;
 }
 
+function loadValues(){
+	clearTimeout (time);
+	obsX = 35; 
+	obsY = -50; 
+	obsY1 = -1000;
+	i = 0;
+	levelSperatorDistance = 150;
+	levelNum = 500 / 50;
+	create = true;
+	speed = 10;
+	gamediffer = 50;
+	gamediffercounter = 0;
+	perodicTime = 33.3;
+	score = 0;
+	gameover = false;
+	var leftStartDelta = Math.floor(Math.random()*40);
+	for (var x = 0; x < leftArray.length; x++) {
+		leftArray[x] = new Level();
+		leftArray[x].y = - (x * levelSperatorDistance) - leftStartDelta;
+	};
+	var rightStartDelta = Math.floor(Math.random()*40);
+	for (var x = 0; x < rightArray.length; x++) {
+		rightArray[x] = new Level();
+		rightArray[x].y = - (x * levelSperatorDistance) - rightStartDelta;
+	};
+}
+
 function runOnLoad () {
 	obstacleImg = new Image();
 	obstacleImg.src = 'img/obstacle1.png';
@@ -46,29 +74,9 @@ function runOnLoad () {
 	playerImg.src = 'img/car1.png';
 	player1 = new Player(2);
 	player2 = new Player(1);
-	window.onkeyup = function(e) {
-	   var key = e.keyCode ? e.keyCode : e.which;
-	   if (key == 39) {
-	   		player1.setState(!player1.getState());
-	   }
-
-	   if(key == 68 || key == 100){
-	   	player2.setState(!player2.getState()); 
-	   }
-	}
 	roadImg = new Image();
 	roadImg.src = 'img/road.png';
 	ctx = Context.create("canvas");
-	var leftStartDelta = Math.floor(Math.random()*40);
-	for (var i = 0; i < leftArray.length; i++) {
-		leftArray[i] = new Level();
-		leftArray[i].y = - (i * levelSperatorDistance) - leftStartDelta;
-	};
-	var rightStartDelta = Math.floor(Math.random()*40);
-	for (var i = 0; i < rightArray.length; i++) {
-		rightArray[i] = new Level();
-		rightArray[i].y = - (i * levelSperatorDistance) - rightStartDelta;
-	};
 }
 
 var Object = function (img){
@@ -118,6 +126,7 @@ function collision (level, lane, player) {
 				gameover = true
 			}else if(level.obj.type == "target") {
 				++score;
+				document.getElementById("scoreUpdate").innerHTML = score;
 				//console.log(score);
 				level.obj.type = "free";
 			}
@@ -179,9 +188,29 @@ function startGameLoop(){
 		ctx.drawImage(roadImg, 0, 0, Context.canvas.width, Context.canvas.height);
 		render();	
 	} 
-	setTimeout(startGameLoop,perodicTime);
+	window.onkeyup = function(e) {
+	   var key = e.keyCode ? e.keyCode : e.which;
+	   if (key == 82 || key == 114) {
+	   	 	loadValues();
+	   		runOnLoad();
+	   		startGameLoop();
+	   }
+	   if (key == 39) {
+	   		player1.setState(!player1.getState());
+	   }
+	   if(key == 68 || key == 100){
+	   	player2.setState(!player2.getState()); 
+	   }
+	}
+	time = setTimeout(startGameLoop,perodicTime);
 }
 
+function Reset(){
+	loadValues();
+	runOnLoad();
+	startGameLoop();
+}
 
+loadValues();
 runOnLoad();
 startGameLoop();

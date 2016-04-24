@@ -8,29 +8,31 @@
 </head>
 <body>
 	<div id = "container">
-		
 		<div id = "audio">
-				<ul>
-					<li>
-						<audio controls loop autoplay>
-				  			<source src="sound/CG8oPo4GTqcT.128.mp3" type="audio/mp3"><br>
-							<p>Your browser does not support the audio element.</p>
-						</audio>
-					</li>
-					<li>
-						<audio controls loop>
-							<source src="sound/htxSBuJ589yc.128.mp3" type="audio/mp3"><br>				  			
-							<p>Your browser does not support the audio element.</p>
-						</audio>
-					</li>
-					<li>
-						<audio controls loop>
-							<source src="sound/sFX7fAUpzI8S.128.mp3" type="audio/mp3">
-							<p>Your browser does not support the audio element.</p>
-						</audio>
-					</li>
-				</ul>
-			</div>
+			<h2> Score </h2>
+			<h2 id = "scoreUpdate">0</h2>
+			<ul>
+				<li>
+					<audio controls loop autoplay>
+			  			<source src="sound/CG8oPo4GTqcT.128.mp3" type="audio/mp3"><br>
+						<p>Your browser does not support the audio element.</p>
+					</audio>
+				</li>
+				<li>
+					<audio controls loop>
+						<source src="sound/htxSBuJ589yc.128.mp3" type="audio/mp3"><br>				  			
+						<p>Your browser does not support the audio element.</p>
+					</audio>
+				</li>
+				<li>
+					<audio controls loop>
+						<source src="sound/sFX7fAUpzI8S.128.mp3" type="audio/mp3">
+						<p>Your browser does not support the audio element.</p>
+					</audio>
+				</li>
+			</ul>
+			<button onclick="Reset()" class = "btn btn-danger" id = "resetBtn">Reset</button>
+			
 		</div>
 		<canvas width="500px" height="580" id = "canvas"></canvas>
 	</div>
