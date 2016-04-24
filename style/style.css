@@ -1,0 +1,23 @@
+body{
+	background-color: black;
+}
+
+#container{
+	display: inline-block;
+}
+
+#audio{
+	display: inline-block; 
+	float: left; 
+	margin-bottom: 50%;
+}
+
+#canvas{
+	display:inline-block; 
+	border: 1px solid gray; 
+	width: 500px; 
+	height: 580px; 
+	margin-left: 15%; 
+	margin-top: 30px;
+}
+

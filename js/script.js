@@ -39,11 +39,11 @@ var Level = function () {
 
 function runOnLoad () {
 	obstacleImg = new Image();
-	obstacleImg.src = 'img/obstacle.png';
+	obstacleImg.src = 'img/obstacle1.png';
 	targetImg = new Image();
-	targetImg.src = 'img/target.png';
+	targetImg.src = 'img/target1.png';
 	playerImg = new Image();
-	playerImg.src = 'img/car.png';
+	playerImg.src = 'img/car1.png';
 	player1 = new Player(2);
 	player2 = new Player(1);
 	window.onkeyup = function(e) {
@@ -178,14 +178,10 @@ function startGameLoop(){
 		ctx.clearRect(roadImg, 0, 0, Context.canvas.width, Context.canvas.height);
 		ctx.drawImage(roadImg, 0, 0, Context.canvas.width, Context.canvas.height);
 		render();	
-	} else {
-		//Enter his name
-		document.getElementById('forGettingTheName').style.display = 'block';
-	}
+	} 
 	setTimeout(startGameLoop,perodicTime);
 }
 
 
-document.getElementById("forGettingTheName").style.display="none";
 runOnLoad();
 startGameLoop();
