@@ -191,6 +191,7 @@ function startGameLoop(){
 	window.onkeyup = function(e) {
 	   var key = e.keyCode ? e.keyCode : e.which;
 	   if (key == 82 || key == 114) {
+	   		document.getElementById("scoreUpdate").innerHTML = "0";
 	   	 	loadValues();
 	   		runOnLoad();
 	   		startGameLoop();
@@ -206,6 +207,7 @@ function startGameLoop(){
 }
 
 function Reset(){
+	document.getElementById("scoreUpdate").innerHTML = "0";
 	loadValues();
 	runOnLoad();
 	startGameLoop();
